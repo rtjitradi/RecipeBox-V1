@@ -8,8 +8,17 @@
 </head>
 
 <body>
-    <h2>{{ page_title }}</h2>
-    <p>This page contains the bio and recipes of {{ selected_author.name }}</p>
+    <h3>{{ page_title }}</h3>
+    <p>This page contains the bio and recipes of {{ selected_author.name }}:</p>
+    <p>{{ selected_author.bio }}</p>
+    <br>
+    <ul>
+        {% for recipe in author_recipes %}
+        <li>
+            <a href="/recipe/{{ recipe.id }}/">{{ recipe }}</a>
+        </li>
+        {% endfor %}
+    </ul>
 </body>
 
 </html>

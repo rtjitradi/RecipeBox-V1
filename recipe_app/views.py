@@ -17,5 +17,5 @@ def recipe_detail(request, recipe_id):
 
 def author_detail(request, author_id):
     chosen_author = Author.objects.filter(id=author_id).first()
-    allrecipes_byauthor = Recipe.objects.filter(author__name=chosen_author)
+    allrecipes_byauthor = Recipe.objects.filter(author=chosen_author)
     return render(request, "author_detail.html", {"page_title": "AUTHOR DETAILS", "selected_author": chosen_author, "author_recipes": allrecipes_byauthor})
