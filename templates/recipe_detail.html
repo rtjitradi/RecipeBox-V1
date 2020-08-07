@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecipeBox: Recipe Details</title>
+</head>
+
+<body>
+    <h2>{{ page_title }}</h2>
+    <h3>This page contains the details for {{ selected_recipe.title }} by {{selected_recipe.author}}</h3>
+    <br>
+    <br> {% if not selected_recipe %}
+    <h4>This recipe is not fantastic enough YET for our list</h4>
+    {% else %}
+    <h1>Enjoy this {{selected_recipe.title}}</h1>
+    <h2>Recommended with passion by <a href="/author/{{ recipe.author.id }}/">{{selected_recipe.author}}</a></h2>
+    <h3>{{selected_recipe.description}}</h3>
+    <h3>Approximate time from preparing to eating this delight is {{selected_recipe.time_required}}</h3>
+    <h3>Follow these steps: {{selected_recipe.instructions}}</h3>
+    {% endif %}
+
+</body>
+
+</html>

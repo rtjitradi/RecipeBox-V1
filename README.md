@@ -80,16 +80,16 @@ ENV/
 
 
 Author model:
-
 Name (CharField)
 Bio (TextField)
-Recipe Model:
 
+Recipe Model:
 Title (CharField)
 Author (ForeignKey)
 Description (TextField)
 Time Required (Charfield) (for example, "One hour")
 Instructions (TextField)
+
 Note: Follow PEP8 naming conventions with your models and field names. An easy way to check is by looking at examples of code in Django's docs --> https://docs.djangoproject.com/en/3.0/topics/db/models/#quick-example (Links to an external site.)Links to an external site.
 
 If you have any questions or get stuck at any point, don't hesitate to ask. Welcome to a new side of web development!
