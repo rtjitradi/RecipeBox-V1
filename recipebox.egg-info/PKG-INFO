@@ -1,0 +1,11 @@
+Metadata-Version: 1.2
+Name: recipebox
+Version: 0.1.0
+Summary: New app that serves recipes from different authors.
+Home-page: UNKNOWN
+Author: Reginald Tjitradi
+Author-email: rtjitradi@gmail.com
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Requires-Python: >=3.8,<4.0
