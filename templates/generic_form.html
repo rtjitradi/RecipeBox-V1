@@ -8,7 +8,7 @@
 </head>
 
 <body>
-    <form action="/newauthor/" method="POST">
+    <form action="" method="POST">
         {% csrf_token %} {{ author_form.as_p }}
         <input type="submit" value="Submit!">
     </form>

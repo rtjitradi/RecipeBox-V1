@@ -2,9 +2,10 @@ from django import forms
 from recipe_app.models import Author, Recipe
 
 
-class AddAuthorForm(forms.Form):
-    name = forms.CharField(max_length=80)
-    bio = forms.CharField(widget=forms.Textarea)
+class AddAuthorForm(forms.ModelForm):
+    class Meta:
+        model = Author
+        fields = ["name", "bio"]
 
 
 class AddRecipeForm(forms.Form):

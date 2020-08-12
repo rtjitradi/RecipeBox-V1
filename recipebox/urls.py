@@ -22,7 +22,7 @@ urlpatterns = [
     path('', simple_list, name="homepage"),
     path('recipe/<int:recipe_id>/', recipe_detail),
     path('author/<int:author_id>/', author_detail),
-    path('newauthor/', add_author),
+    path('newauthor/', add_author, name="newauthor"),
     path('newrecipe/', add_recipe, name="newrecipe"),
     path('admin/', admin.site.urls),
 ]

@@ -25,14 +25,10 @@ def author_detail(request, author_id):
 def add_author(request):
     if request.method == "POST":
         author_form = AddAuthorForm(request.POST)
-        if author_form.is_valid():
-            author_data = author_form.cleaned_data
-            Author.objects.create(
-                name=author_data.get('name'),
-                bio=author_data.get('bio'),
-            )
+        author_form.save()
+        return HttpResponseRedirect(reverse("homepage"))
     author_form = AddAuthorForm()
-    return render(request, "author_form.html", {"author_form": author_form})
+    return render(request, "generic_form.html", {"author_form": author_form})
 
 
 def add_recipe(request):
