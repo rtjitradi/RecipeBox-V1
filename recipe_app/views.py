@@ -28,7 +28,7 @@ def add_author(request):
         author_form.save()
         return HttpResponseRedirect(reverse("homepage"))
     author_form = AddAuthorForm()
-    return render(request, "generic_form.html", {"author_form": author_form})
+    return render(request, "generic_form.html", {"page_title": "AUTHOR FORM", "author_form": author_form})
 
 
 def add_recipe(request):
@@ -45,4 +45,4 @@ def add_recipe(request):
             )
             return HttpResponseRedirect(reverse("homepage"))
     recipe_form = AddRecipeForm()
-    return render(request, "recipe_form.html", {"recipe_form": recipe_form})
+    return render(request, "recipe_form.html", {"page_title": "RECIPE FORM", "recipe_form": recipe_form})
