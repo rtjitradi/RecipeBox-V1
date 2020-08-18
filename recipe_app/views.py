@@ -41,14 +41,14 @@ def add_recipe(request):
         recipe_form = AddRecipeForm(request.POST)
         if recipe_form.is_valid():
             recipe_data = recipe_form.cleaned_data
-            Recipe.objects.create(
+            new_recipe = Recipe.objects.create(
                 title=recipe_data.get('title'),
-                author=recipe_data.get('author'),
+                author=request.user.author,
                 description=recipe_data.get('description'),
                 time_required=recipe_data.get('time_required'),
                 instructions=recipe_data.get('instructions'),
             )
-            return HttpResponseRedirect(reverse("homepage"))
+            return HttpResponseRedirect(reverse("recipe_detail", args=[new_recipe.id]))
     recipe_form = AddRecipeForm()
     return render(request, "recipe_form.html", {"page_title": "RECIPE FORM", "recipe_form": recipe_form})
 
@@ -74,6 +74,7 @@ def signup_view(request):
         if signup_form.is_valid():
             signup_data = signup_form.cleaned_data
             new_user = User.objects.create_user(username=signup_data.get("username"), password=signup_data.get("password"))
+            Author.objects.create(name=signup_data.get("username", user=new_user))
             login(request, new_user)
             return HttpResponseRedirect(reverse("homepage"))
     signup_form = SignupForm()
