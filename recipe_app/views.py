@@ -7,6 +7,7 @@ from recipe_app.models import Author, Recipe
 from recipe_app.forms import AddAuthorForm, AddRecipeForm, LoginForm, SignupForm
 
 # Create your views here.
+# mike forked repo
 
 
 def simple_list(request):
@@ -59,7 +60,8 @@ def login_view(request):
         login_form = LoginForm(request.POST)
         if login_form.is_valid():
             login_data = login_form.cleaned_data
-            user = authenticate(request, username=login_data.get("username"), password=login_data.get("password"))
+            user = authenticate(request, username=login_data.get(
+                "username"), password=login_data.get("password"))
             if user:
                 login(request, user)
                 return HttpResponseRedirect(request.GET.get('next', reverse("homepage")))
@@ -73,8 +75,10 @@ def signup_view(request):
         signup_form = SignupForm(request.POST)
         if signup_form.is_valid():
             signup_data = signup_form.cleaned_data
-            new_user = User.objects.create_user(username=signup_data.get("username"), password=signup_data.get("password"))
-            Author.objects.create(name=signup_data.get("username", user=new_user))
+            new_user = User.objects.create_user(username=signup_data.get(
+                "username"), password=signup_data.get("password"))
+            Author.objects.create(
+                name=signup_data.get("username", user=new_user))
             login(request, new_user)
             return HttpResponseRedirect(reverse("homepage"))
     signup_form = SignupForm()
