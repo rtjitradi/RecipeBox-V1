@@ -78,7 +78,7 @@ def signup_view(request):
             new_user = User.objects.create_user(username=signup_data.get(
                 "username"), password=signup_data.get("password"))
             Author.objects.create(
-                name=signup_data.get("username", user=new_user))
+                name=signup_data.get("username"), user=new_user)
             login(request, new_user)
             return HttpResponseRedirect(reverse("homepage"))
     signup_form = SignupForm()
