@@ -8,12 +8,10 @@ class AddAuthorForm(forms.ModelForm):
         fields = ["name", "bio"]
 
 
-class AddRecipeForm(forms.Form):
-    title = forms.CharField(max_length=150)
-    # author = forms.ModelChoiceField(queryset=Author.objects.all())
-    description = forms.CharField(widget=forms.Textarea)
-    time_required = forms.CharField(max_length=90)
-    instructions = forms.CharField(widget=forms.Textarea)
+class AddRecipeForm(forms.ModelForm):
+    class Meta:
+        model = Recipe
+        fields = ["title", "description", "time_required", "instructions"]
 
 
 class LoginForm(forms.Form):

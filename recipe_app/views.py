@@ -54,6 +54,18 @@ def add_recipe(request):
     return render(request, "recipe_form.html", {"page_title": "RECIPE FORM", "recipe_form": recipe_form})
 
 
+@login_required
+def edit_recipe(request, recipe_id):
+    edit_recipe = Recipe.objects.filter(id=recipe_id).first()
+    if request.method == "POST":
+        recipe_form = AddRecipeForm(request.POST, instance=edit_recipe)
+        recipe_form.save()
+        return HttpResponseRedirect(reverse("recipe_detail", args=[edit_recipe.id]))
+
+    recipe_form = AddRecipeForm(instance=edit_recipe)
+    return render(request, "recipe_form.html", {"page_title": "RECIPE FORM", "recipe_form": recipe_form})
+
+
 # superusername: reggy / password: djangoway
 def login_view(request):
     if request.method == "POST":
