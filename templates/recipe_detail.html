@@ -4,6 +4,18 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RecipeBox: Recipe Details</title>
+    <style>
+      .button {
+        display: inline-block;
+        padding: 10px 20px;
+        text-align: center;
+        text-decoration: none;
+        color: #ffffff;
+        background-color: #7aa8b7;
+        border-radius: 6px;
+        outline: none;
+      }
+    </style>
   </head>
 
   <body>
@@ -34,11 +46,13 @@
     <h3>Follow these steps: {{selected_recipe.instructions}}</h3>
     {% if request.user.is_authenticated and user_favorite == False%}
     <h3>
-      <a href="/addfavorite/{{selected_recipe.id}}/"> Mark as a Favorite </a>
+      <a class="button" href="/addfavorite/{{selected_recipe.id}}/">
+        Mark as a Favorite
+      </a>
     </h3>
     {% else %}
     <h3>
-      <a href="/removefavorite/{{selected_recipe.id}}/">
+      <a class="button" href="/removefavorite/{{selected_recipe.id}}/">
         Remove as a Favorite
       </a>
     </h3>

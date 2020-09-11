@@ -25,7 +25,7 @@
     <ul>
       {% for recipe in favorite_recipes %}
       <li>
-        <a href="/recipe/{{ recipe.id }}/">{{ recipe }}</a>
+        <a href="/recipe/{{ recipe.recipe.id }}/">{{ recipe }}</a>
       </li>
       {% endfor %}
     </ul>

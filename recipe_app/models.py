@@ -47,4 +47,4 @@ class Favorites(models.Model):
     favorited_by = models.ForeignKey(Author, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.favorited_by}"
+        return f"{self.recipe}"
