@@ -2,8 +2,9 @@ from django.shortcuts import render, HttpResponseRedirect, reverse
 from django.contrib.auth import login, logout, authenticate
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.views.generic.base import View
 
-from recipe_app.models import Author, Recipe
+from recipe_app.models import Author, Recipe, Favorites
 from recipe_app.forms import AddAuthorForm, AddRecipeForm, LoginForm, SignupForm
 
 # Create your views here.
@@ -17,13 +18,21 @@ def simple_list(request):
 
 def recipe_detail(request, recipe_id):
     chosen_recipe = Recipe.objects.filter(id=recipe_id).first()
-    return render(request, "recipe_detail.html", {"page_title": "RECIPE DETAILS", "selected_recipe": chosen_recipe})
+
+    fav_for_user = Author.objects.filter(user=request.user).first()
+    fav_recipe_delete = Recipe.objects.filter(id=recipe_id).first()
+    if Favorites.objects.filter(favorited_by=fav_for_user, recipe=fav_recipe_delete):
+        user_favorite = True
+    else:
+        user_favorite = False
+    return render(request, "recipe_detail.html", {"page_title": "RECIPE DETAILS", "selected_recipe": chosen_recipe, "user_favorite": user_favorite})
 
 
 def author_detail(request, author_id):
     chosen_author = Author.objects.filter(id=author_id).first()
     allrecipes_byauthor = Recipe.objects.filter(author=chosen_author)
-    return render(request, "author_detail.html", {"page_title": "AUTHOR DETAILS", "selected_author": chosen_author, "author_recipes": allrecipes_byauthor})
+    favorite_recipes = Favorites.objects.filter(favorited_by=chosen_author)
+    return render(request, "author_detail.html", {"page_title": "AUTHOR DETAILS", "selected_author": chosen_author, "author_recipes": allrecipes_byauthor, "favorite_recipes": favorite_recipes})
 
 
 @login_required
@@ -99,4 +108,23 @@ def signup_view(request):
 
 def logout_view(request):
     logout(request)
+    return HttpResponseRedirect(reverse("homepage"))
+
+
+def add_favorite(request, recipe_id):
+    fav_recipe_add = Recipe.objects.filter(id=recipe_id).first()
+    favorited_by_author = Author.objects.filter(user=request.user).first()
+    Favorites.objects.create(recipe=fav_recipe_add,
+                             favorited_by=favorited_by_author)
+    return HttpResponseRedirect(reverse("homepage"))
+
+
+def remove_favorite(request, recipe_id):
+
+    fav_for_user = Author.objects.filter(user=request.user).first()
+    fav_recipe_delete = Recipe.objects.filter(id=recipe_id).first()
+    favorite_to_delete = Favorites.objects.filter(
+        favorited_by=fav_for_user, recipe=fav_recipe_delete)
+    favorite_to_delete.delete()
+
     return HttpResponseRedirect(reverse("homepage"))

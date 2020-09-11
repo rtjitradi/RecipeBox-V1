@@ -1,24 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RecipeBox: Author Details</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <h3>{{ page_title }}</h3>
-    <p>This page contains the bio and recipes of {{ selected_author.name }}:</p>
+    <h4>
+      This page contains the bio, recipes and favorite recipes of
+      {{selected_author.name }}:
+    </h4>
     <p>{{ selected_author.bio }}</p>
-    <br>
+    <br />
     <ul>
-        {% for recipe in author_recipes %}
-        <li>
-            <a href="/recipe/{{ recipe.id }}/">{{ recipe }}</a>
-        </li>
-        {% endfor %}
+      {% for recipe in author_recipes %}
+      <li>
+        <a href="/recipe/{{ recipe.id }}/">{{ recipe }}</a>
+      </li>
+      {% endfor %}
     </ul>
-</body>
-
+    <h4>My Favorite Recipes</h4>
+    <ul>
+      {% for recipe in favorite_recipes %}
+      <li>
+        <a href="/recipe/{{ recipe.id }}/">{{ recipe }}</a>
+      </li>
+      {% endfor %}
+    </ul>
+  </body>
 </html>
