@@ -18,14 +18,27 @@ def simple_list(request):
 
 def recipe_detail(request, recipe_id):
     chosen_recipe = Recipe.objects.filter(id=recipe_id).first()
-
-    fav_for_user = Author.objects.filter(user=request.user).first()
-    fav_recipe_delete = Recipe.objects.filter(id=recipe_id).first()
-    if Favorites.objects.filter(favorited_by=fav_for_user, recipe=fav_recipe_delete):
-        user_favorite = True
+    # add if for anon user
+    if request.user.is_authenticated:
+        if request.user.author in Author.objects.all():
+            anon_user = False
+            fav_for_user = Author.objects.filter(user=request.user).first()
+            fav_recipe_delete = Recipe.objects.filter(id=recipe_id).first()
+            if Favorites.objects.filter(favorited_by=fav_for_user, recipe=fav_recipe_delete):
+                user_favorite = True
+            else:
+                user_favorite = False
+        else:
+            anon_user = True
+            fav_for_user = ''
+            fav_recipe_delete = ''
+            user_favorite = False
     else:
+        anon_user = True
+        fav_for_user = ''
+        fav_recipe_delete = ''
         user_favorite = False
-    return render(request, "recipe_detail.html", {"page_title": "RECIPE DETAILS", "selected_recipe": chosen_recipe, "user_favorite": user_favorite})
+    return render(request, "recipe_detail.html", {"page_title": "RECIPE DETAILS", "selected_recipe": chosen_recipe, "user_favorite": user_favorite, "anon_user": anon_user})
 
 
 def author_detail(request, author_id):
@@ -116,7 +129,7 @@ def add_favorite(request, recipe_id):
     favorited_by_author = Author.objects.filter(user=request.user).first()
     Favorites.objects.create(recipe=fav_recipe_add,
                              favorited_by=favorited_by_author)
-    return HttpResponseRedirect(reverse("homepage"))
+    return HttpResponseRedirect(reverse("author_detail", args=[request.user.author.id]))
 
 
 def remove_favorite(request, recipe_id):
@@ -127,4 +140,4 @@ def remove_favorite(request, recipe_id):
         favorited_by=fav_for_user, recipe=fav_recipe_delete)
     favorite_to_delete.delete()
 
-    return HttpResponseRedirect(reverse("homepage"))
+    return HttpResponseRedirect(reverse("author_detail", args=[request.user.author.id]))
