@@ -18,7 +18,6 @@ def simple_list(request):
 
 def recipe_detail(request, recipe_id):
     chosen_recipe = Recipe.objects.filter(id=recipe_id).first()
-    # add if for anon user
     if request.user.is_authenticated:
         if request.user.author in Author.objects.all():
             anon_user = False
@@ -79,16 +78,20 @@ def add_recipe(request):
 @login_required
 def edit_recipe(request, recipe_id):
     edit_recipe = Recipe.objects.filter(id=recipe_id).first()
-    if request.method == "POST":
-        recipe_form = AddRecipeForm(request.POST, instance=edit_recipe)
-        recipe_form.save()
+    if edit_recipe.author == request.user.author or request.user.is_superuser:
+        if request.method == "POST":
+            recipe_form = AddRecipeForm(request.POST, instance=edit_recipe)
+            recipe_form.save()
+            return HttpResponseRedirect(reverse("recipe_detail", args=[edit_recipe.id]))
+
+        recipe_form = AddRecipeForm(instance=edit_recipe)
+        return render(request, "recipe_form.html", {"page_title": "RECIPE FORM", "recipe_form": recipe_form})
+    else:
         return HttpResponseRedirect(reverse("recipe_detail", args=[edit_recipe.id]))
 
-    recipe_form = AddRecipeForm(instance=edit_recipe)
-    return render(request, "recipe_form.html", {"page_title": "RECIPE FORM", "recipe_form": recipe_form})
-
-
 # superusername: reggy / password: djangoway
+
+
 def login_view(request):
     if request.method == "POST":
         login_form = LoginForm(request.POST)
