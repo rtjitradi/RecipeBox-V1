@@ -85,7 +85,8 @@ def edit_recipe(request, recipe_id):
             return HttpResponseRedirect(reverse("recipe_detail", args=[edit_recipe.id]))
 
         recipe_form = AddRecipeForm(instance=edit_recipe)
-        return render(request, "recipe_form.html", {"page_title": "RECIPE FORM", "recipe_form": recipe_form})
+        # had some help from Matthew Perry on using the correct form so it doesnt update the edited recipe with the superuser as author
+        return render(request, "generic_form.html", {"page_title": "RECIPE FORM", "author_form": recipe_form})
     else:
         return HttpResponseRedirect(reverse("recipe_detail", args=[edit_recipe.id]))
 
