@@ -1,27 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RecipeBox: Recipe Details</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <h2>{{ page_title }}</h2>
-    <h3>This page contains the details for {{ selected_recipe.title }} by
-        <a href="/author/{{ selected_recipe.author.id }}/">{{selected_recipe.author}}</a></h3>
-    <br>
-    <br> {% if not selected_recipe %}
+    <h3>
+      This page contains the details for {{ selected_recipe.title }} by
+      <a href="/author/{{ selected_recipe.author.id }}/"
+        >{{selected_recipe.author}}</a
+      >
+    </h3>
+    <br />
+    <br />
+    {% if not selected_recipe %}
     <h4>This recipe is not fantastic enough YET for our list</h4>
     {% else %}
     <h1>Enjoy this {{selected_recipe.title}}</h1>
-    <h2>Recommended with passion by <a href="/author/{{ selected_recipe.author.id }}/">{{selected_recipe.author}}</a></h2>
+    <h2>
+      Recommended with passion by
+      <a href="/author/{{ selected_recipe.author.id }}/"
+        >{{selected_recipe.author}}</a
+      >
+    </h2>
     <h3>{{selected_recipe.description}}</h3>
-    <h3>Approximate time from preparing to enjoying this delight is {{selected_recipe.time_required}}</h3>
+    <h3>
+      Approximate time from preparing to enjoying this delight is
+      {{selected_recipe.time_required}}
+    </h3>
     <h3>Follow these steps: {{selected_recipe.instructions}}</h3>
-    {% endif %}
-
-</body>
-
+    {% if anon_user %}
+    <p></p>
+    {% else %} {% if request.user.is_authenticated and user_favorite == False%}
+    <h3>
+      <button type="button">
+        <a href="/addfavorite/{{selected_recipe.id}}/"> Mark as a Favorite </a>
+      </button>
+    </h3>
+    {% else %}
+    <h3>
+      <button type="button">
+        <a href="/removefavorite/{{selected_recipe.id}}/">
+          Remove as a Favorite
+        </a>
+      </button>
+    </h3>
+    {% endif %} {% endif %} {% endif %}
+  </body>
 </html>

@@ -1,45 +1,48 @@
 <!DOCTYPE html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>RecipeBox: List of Recipes</title>
-</head>
+  </head>
 
-<body>
+  <body>
     <h1>{{ page_title }}</h1>
-    <br>
+    <br />
     <button type="button">
-        <a href="/signup/{{ signup_view }}">SIGNUP IF NOT A MEMBER YET</a>
+      <a href="/signup/{{ signup_view }}">SIGNUP IF NOT A MEMBER YET</a>
     </button>
     <h3>Authentication Status: {{ request.user.is_authenticated }}</h3>
+    {% if request.user.is_authenticated %}
+    <h3>
+      Welcome, you are logged in as
+      <a href="/author/{{ request.user.author.id }}/">{{ request.user }}</a>.
+    </h3>
+    {% endif %}
     <button type="button">
-        <a href="/login/{{ login_view }}">LOGIN</a>
+      <a href="/login/{{ login_view }}">LOGIN</a>
     </button>
 
     <ul>
-        {% for recipe in recipes %}
-        <li>
-            <a href="/recipe/{{ recipe.id }}/">{{ recipe }}</a>
-        </li>
-        {% endfor %}
+      {% for recipe in recipes %}
+      <li>
+        <a href="/recipe/{{ recipe.id }}/">{{ recipe }}</a>
+      </li>
+      {% endfor %}
     </ul>
 
     <button type="button">
-        <a href="/newrecipe/{{ add_recipe }}">ADD NEW RECIPE</a>
+      <a href="/newrecipe/{{ add_recipe }}">ADD NEW RECIPE</a>
     </button>
 
     <button type="button">
-        <a href="/newauthor/{{ add_author }}">ADD NEW AUTHOR</a>
+      <a href="/newauthor/{{ add_author }}">ADD NEW AUTHOR</a>
     </button>
-    <br>
-    <br>
-    <br>
+    <br />
+    <br />
+    <br />
     <button type="button">
-        <a href="/logout/{{ logout_view }}">LOGOUT</a>
+      <a href="/logout/{{ logout_view }}">LOGOUT</a>
     </button>
-
-</body>
-
+  </body>
 </html>
